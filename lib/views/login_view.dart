@@ -1,9 +1,9 @@
 
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
-import 'package:mynotes/firebase_options.dart';
+
 
 // f2 for rename a wid
 class LoginView extends StatefulWidget {
@@ -37,71 +37,64 @@ late final TextEditingController _password;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 98, 185, 200),
         title: const Text('Login'),
       ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-                  options: DefaultFirebaseOptions.currentPlatform,
+      body: Column(
+            children: [
+              TextField(
+                controller: _email,
+                enableSuggestions: false,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  hintText: 'Email',
                 ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState){
-            
-            case ConnectionState.done:
-              return Column(
-          children: [
-            TextField(
-              controller: _email,
-              enableSuggestions: false,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: 'Email',
               ),
-            ),
-            TextField(
-              controller: _password,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: const InputDecoration(
-                hintText: 'Password',
+              TextField(
+                controller: _password,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  hintText: 'Password',
+                ),
               ),
-            ),
-            TextButton(
-              onPressed: () async {
-    
-                final email = _email.text;
-                final password = _password.text;
-                
-                  try{
-                      final UserCredential= await FirebaseAuth.instance
-               .signInWithEmailAndPassword(
-                  email: email,
-                  password: password,
-                   );
-                   print(UserCredential);
-                   } on FirebaseAuthException catch (e){
-                    // the way to catch a single error
-                   // print(e.code);
-                   if (e.code == 'invalid-credential'){
-                    print('Incorrect user or password');
-                   } else {
-                    print('something happend');
-                    print(e.code);
-                   }
-                   } 
-                
-              },
-              child: const Text('Log in'),
-              ),
-          ],
-        );
-        default:
-        return const Text('Loading...');
-          }   
-        },   
-      ),
+              TextButton(
+                onPressed: () async {
+      
+                  final email = _email.text;
+                  final password = _password.text;
+                  
+                    try{
+                        final UserCredential= await FirebaseAuth.instance
+                 .signInWithEmailAndPassword(
+                    email: email,
+                    password: password,
+                     );
+                     print(UserCredential);
+                     } on FirebaseAuthException catch (e){
+                      // the way to catch a single error
+                     // print(e.code);
+                     if (e.code == 'invalid-credential'){
+                      print('Incorrect user or password');
+                     } else {
+                      print('something happend');
+                      print(e.code);
+                     }
+                     } 
+                },
+                child: const Text('Log in'),
+                ),
+                TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/register/',
+                     (route) => false);
+                  }, 
+                  child: const Text ('Not registered yet? Register here!')
+                  )
+            ],
+          ),
     );
   }
 }
