@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "440779755870",
+    "project_id": "mynotes-flutter-fidel-fuentes",
+    "storage_bucket": "mynotes-flutter-fidel-fuentes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440779755870:android:68f56bdb01b3684f0f3fcf",
+        "android_client_info": {
+          "package_name": "com.arrancando.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKJ_1omKX_p-HpT2h8z77tkoFSgc41_X4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
