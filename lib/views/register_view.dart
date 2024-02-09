@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devtools show log;
 import 'package:flutter/material.dart';
+import 'package:mynotes/constants/routes.dart';
 
 // stl ==> stateless wid
 // stf ==> statefull wid
@@ -82,7 +83,7 @@ late final TextEditingController _password;
                 ),
                 TextButton(onPressed: (){
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/login/',
+                    loginRoute,
                    (route) => false);
                 }, child: const Text('Already registered? Login here'))
             ],

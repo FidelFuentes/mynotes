@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 
+import 'package:mynotes/constants/routes.dart';
+
 // f2 for rename a wid
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -69,7 +71,7 @@ late final TextEditingController _password;
                     password: password,
                      );
                      Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/notes/', 
+                      notesRoute, 
                       (route) => false);
                      } on FirebaseAuthException catch (e){
                       // the way to catch a single error
@@ -87,7 +89,7 @@ late final TextEditingController _password;
                 TextButton(
                   onPressed: (){
                     Navigator.of(context).pushNamedAndRemoveUntil( //push an screen on top the other, named route, remove the one besides.
-                      '/register/',
+                      registerRoute,
                      (route) => false); // remove everthing.
                   }, 
                   child: const Text ('Not registered yet? Register here!')
