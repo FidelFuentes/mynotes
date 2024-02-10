@@ -1,9 +1,10 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
+//import 'dart:developer' as devtools show log;
 
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/utilities/show_error_dialog.dart';
 
 // f2 for rename a wid
 class LoginView extends StatefulWidget {
@@ -76,12 +77,21 @@ late final TextEditingController _password;
                      } on FirebaseAuthException catch (e){
                       // the way to catch a single error
                      // print(e.code);
-                     if (e.code == 'invalid-credential'){
-                      devtools.log('Incorrect user or password');
+                     if (e.code == 'user-not-found'){ //I HAVE TO CHECK THE E.CODE
+                      await showErrorDialog(
+                        context,
+                         "Invalid credentials");
+                      //devtools.log('Incorrect user or password');
                      } else {
-                      devtools.log('something happend');
-                      devtools.log(e.code);
+                       await showErrorDialog(
+                        context,
+                         "Error: ${e.code}"); //like javascript
                      }
+                     } catch (e){
+                      await showErrorDialog(
+                        context,
+                         e.toString()
+                         );
                      } 
                 },
                 child: const Text('Log in'),
@@ -99,4 +109,3 @@ late final TextEditingController _password;
     );
   }
 }
-
