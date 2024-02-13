@@ -71,9 +71,20 @@ late final TextEditingController _password;
                     email: email,
                     password: password,
                      );
-                     Navigator.of(context).pushNamedAndRemoveUntil(
+                     final user = FirebaseAuth.instance.currentUser;
+                     if(user?.emailVerified ?? false){
+                        // email verified
+                      Navigator.of(context).pushNamedAndRemoveUntil(
                       notesRoute, 
                       (route) => false);
+                     } else {
+                        // user is not verified
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                      verifyEmailRoute, 
+                      (route) => false);
+
+                     }
+                     
                      } on FirebaseAuthException catch (e){
                       // the way to catch a single error
                      // print(e.code);
