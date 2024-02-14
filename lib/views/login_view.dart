@@ -1,9 +1,9 @@
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'dart:developer' as devtools show log;
-
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/services/auth/auth_exceptions.dart';
+import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/show_error_dialog.dart';
 
 // f2 for rename a wid
@@ -67,12 +67,13 @@ late final TextEditingController _password;
                   final password = _password.text;
                   
                     try{
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: email,
-                    password: password,
-                     );
-                     final user = FirebaseAuth.instance.currentUser;
-                     if(user?.emailVerified ?? false){
+                      
+                    await AuthService.firebase().logIn(
+                       email: email,
+                       password: password,);
+
+                     final user = AuthService.firebase().currentUser;
+                     if(user?.isEmailVerified ?? false){
                         // email verified
                       Navigator.of(context).pushNamedAndRemoveUntil(
                       notesRoute, 
@@ -85,25 +86,20 @@ late final TextEditingController _password;
 
                      }
                      
-                     } on FirebaseAuthException catch (e){
-                      // the way to catch a single error
-                     // print(e.code);
-                     if (e.code == 'user-not-found'){ //I HAVE TO CHECK THE E.CODE
-                      await showErrorDialog(
-                        context,
-                         "Invalid credentials");
-                      //devtools.log('Incorrect user or password');
-                     } else {
+                     } on UserNotFoundAuthException{
                        await showErrorDialog(
                         context,
-                         "Error: ${e.code}"); //like javascript
-                     }
-                     } catch (e){
-                      await showErrorDialog(
+                         "Invalid credentials");
+                     } on WrongPasswordAuthException{
+                        await showErrorDialog(
+                          context,
+                           'Wrong password');
+                     } on GenericAuthException{
+                       await showErrorDialog(
                         context,
-                         e.toString()
+                         'Authentication error',
                          );
-                     } 
+                     }
                 },
                 child: const Text('Log in'),
                 ),
