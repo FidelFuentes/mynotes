@@ -1,5 +1,5 @@
 
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/enums/menu_action.dart';
@@ -36,8 +36,12 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main UI'),
+        title: const Text('Your Notes'),
+        
         actions:[
+          IconButton(onPressed: (){
+            Navigator.of(context).pushNamed(newNOteRoute);
+          }, icon: const Icon(Icons.add)),
           PopupMenuButton<MenuAction>(onSelected: (value)  async {
             switch (value){
               
