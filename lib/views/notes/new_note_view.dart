@@ -98,7 +98,7 @@ class _NewNoteViewState extends State<NewNoteView> {
 
             );
           default:
-          return const Text('Write your note here'); 
+          return const LinearProgressIndicator();
         }
       },),
     );
